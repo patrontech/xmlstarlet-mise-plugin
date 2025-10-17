@@ -7,5 +7,5 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 source "${plugin_dir}/lib/utils.bash"
 
 mkdir -p "$ASDF_DOWNLOAD_PATH"
-  
+
 download_release "$ASDF_INSTALL_VERSION" "$ASDF_DOWNLOAD_PATH"
