@@ -5,6 +5,7 @@ std = "lua51"
 -- Globals defined by the mise/vfox plugin system
 globals = {
     "PLUGIN",
+    "RUNTIME",
 }
 
 -- Read-only globals from the plugin environment

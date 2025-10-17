@@ -20,7 +20,8 @@ function PLUGIN:PreInstall(ctx)
     -- local url = "https://raw.githubusercontent.com/<GITHUB_USER>/<GITHUB_REPO>/" .. version .. "/bin/<TOOL>"
 
     -- Replace with your actual download URL pattern
-    local url = "https://example.com/<TOOL>/releases/download/" .. version .. "/<TOOL>"
+    local url = ("https://downloads.sourceforge.net/project/xmlstar/xmlstarlet/%s/xmlstarlet-%s.tar.gz"):format(version, version)
+    local sha = "15d838c4f3375332fd95554619179b69e4ec91418a3a5296e7c631b7ed19e7ca"
 
     -- Optional: Fetch checksum for verification
     -- local sha256 = fetch_checksum(version) -- Implement if checksums are available
@@ -28,8 +29,8 @@ function PLUGIN:PreInstall(ctx)
     return {
         version = version,
         url = url,
-        -- sha256 = sha256, -- Optional but recommended for security
-        note = "Downloading <TOOL> " .. version,
+        sha256 = sha, 
+        note = "Downloading XMLStarlet " .. version,
         -- addition = { -- Optional: download additional components
         --     {
         --         name = "component",

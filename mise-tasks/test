@@ -2,17 +2,17 @@
 #MISE description="Run plugin tests - install and execute tool"
 set -euo pipefail
 
-mise plugin link --force <TOOL> .
+mise plugin link --force xmlstarlet .
 mise cache clear
-mise install <TOOL>@1.0.0
+mise install xmlstarlet@1.6.1 
 
 # Capture and display the output while also verifying it
-output=$(mise exec "<TOOL>@1.0.0" -- "<TOOL>" --version)
+output=$(mise exec "xmlstarlet@1.6.1" -- "xmlstarlet" --version)
 echo "<TOOL> output: $output"
 
-if echo "$output" | grep -q '<TOOL>@1.0.0'; then
+if echo "$output" | grep -q 'xmlstarlet@1.6.1'; then
     echo "✓ Tests passed"
 else
-    echo "✗ Test failed: expected version <TOOL>@1.0.0"
+    echo "✗ Test failed: expected version xmlstarlet@1.0.0"
     exit 1
 fi
