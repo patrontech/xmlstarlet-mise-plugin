@@ -198,7 +198,7 @@ install_xmlstarlet() {
               --prefix="${install_dir}" \
               --mandir="${install_dir}/share/man"
   make -j"$jobs"
-  make install
+  make install 2> >(grep -v -E "ignoring duplicate libraries:|libtool: warning: relinking" >&2)
   ln -sf "${install_dir}/bin/xml" "${install_dir}/bin/xmlstarlet"
 }
 
