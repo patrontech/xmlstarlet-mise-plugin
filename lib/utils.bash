@@ -196,8 +196,8 @@ install_xmlstarlet() {
   ./configure --disable-dependency-tracking \
               --prefix="${install_dir}" \
               --mandir="${install_dir}/share/man"
-  make -j"$jobs" LIBTOOLFLAGS=--silent
-  make install
+  make -j"$jobs"
+  make install LIBTOOLFLAGS=-silent
   ln -sf "${install_dir}/bin/xml" "${install_dir}/bin/xmlstarlet"
 }
 
