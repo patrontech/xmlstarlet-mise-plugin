@@ -186,6 +186,7 @@ install_xmlstarlet() {
       RPATH_ABS="${install_dir}/lib"
       ;;
   esac
+  export LIBTOOLFLAGS=--silent
   export XML2_CONFIG="${install_dir}/bin/xml2-config"   # ADDED
   XML2_CFLAGS="$("$XML2_CONFIG" --cflags)"
   XML2_LIBS="$("$XML2_CONFIG" --libs)"
