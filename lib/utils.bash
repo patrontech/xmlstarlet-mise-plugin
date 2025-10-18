@@ -104,6 +104,8 @@ download_xmlstarlet() {
 download_release() {
   local install_version="$1"
   local download_dir="$2"
+  rm -rf "$download_dir"
+  mkdir -p "$download_dir"
   download_zlib "$install_version" "$download_dir"
   download_libxml2 "$install_version" "$download_dir"
   download_libxslt "$install_version" "$download_dir"
@@ -209,8 +211,6 @@ install_release() {
   local jobs="${3:-1}"
   rm -rf "$install_dir"
   mkdir -p "$install_dir"
-  rm -rf "$download_dir"
-  mkdir -p "$download_dir"
   install_zlib "$download_dir" "$install_dir" "$jobs"
   install_libxml2 "$download_dir" "$install_dir" "$jobs"
   install_libxslt "$download_dir" "$install_dir" "$jobs"
