@@ -209,8 +209,11 @@ install_release() {
   local jobs="${3:-1}"
   rm -rf "$install_dir"
   mkdir -p "$install_dir"
+  rm -rf "$download_dir"
+  mkdir -p "$download_dir"
   install_zlib "$download_dir" "$install_dir" "$jobs"
   install_libxml2 "$download_dir" "$install_dir" "$jobs"
   install_libxslt "$download_dir" "$install_dir" "$jobs"
   install_xmlstarlet "$download_dir" "$install_dir" "$jobs"
+  rm -rf "$download_dir"
 }
