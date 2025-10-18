@@ -181,7 +181,7 @@ install_xmlstarlet() {
       RPATH_ABS="${install_dir}/lib"
       ;;
     *)
-      export CFLAGS="${CFLAGS-} -Wno-deprecated-declarations -Wno-incompatable-pointer-types"
+      export CFLAGS="${CFLAGS-} -Wno-deprecated-declarations -Wno-incompatible-pointer-types"
       RPATH_REL='$ORIGIN/../lib'
       RPATH_ABS="${install_dir}/lib"
       ;;
