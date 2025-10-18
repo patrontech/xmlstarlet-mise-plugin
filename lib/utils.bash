@@ -175,14 +175,15 @@ install_xmlstarlet() {
   local download_dir="$1"
   local install_dir="$2"
   local jobs="$3"
+  export CFLAGS="${CFLAGS-} -Wno-deprecated-declarations -Wno-pointer-sign"
   case "$(uname -s)" in
     Darwin)
-      export CFLAGS="${CFLAGS-} -Wno-deprecated-declarations -Wno-incompatible-function-pointer-types -Wno-pointer-sign -Wno-parentheses-equality -Wno-tautological-pointer-compare -Wno-sometimes-uninitialized -Wno-strict-prototypes"
+      export CFLAGS="${CFLAGS} -Wno-incompatible-function-pointer-types -Wno-parentheses-equality -Wno-tautological-pointer-compare -Wno-sometimes-uninitialized -Wno-strict-prototypes"
       RPATH_REL='@loader_path/../lib'
       RPATH_ABS="${install_dir}/lib"
       ;;
     *)
-      export CFLAGS="${CFLAGS-} -Wno-deprecated-declarations -Wno-incompatible-pointer-types -Wno-pointer-sign -Wno-address"
+      export CFLAGS="${CFLAGS} -Wno-incompatible-pointer-types -Wno-address"
       RPATH_REL='$ORIGIN/../lib'
       RPATH_ABS="${install_dir}/lib"
       ;;
