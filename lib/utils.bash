@@ -197,7 +197,7 @@ install_xmlstarlet() {
               --prefix="${install_dir}" \
               --mandir="${install_dir}/share/man"
   make -j"$jobs"
-  make install LIBTOOLFLAGS=-silent
+  make install
   ln -sf "${install_dir}/bin/xml" "${install_dir}/bin/xmlstarlet"
 }
 
