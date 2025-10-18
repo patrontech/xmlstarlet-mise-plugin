@@ -117,7 +117,7 @@ install_zlib() {
   cd "$download_dir/zlib"
   ./configure --prefix="$install_dir"
   make -j"$jobs"
-  make install 2>/dev/null
+  make install
 }
 
 install_libxml2() {
@@ -142,7 +142,7 @@ install_libxml2() {
               --without-python \
               --without-lzma
   make -j"$jobs"
-  make install 2>/dev/null
+  make install
 }
 
 install_libxslt() {
@@ -168,7 +168,7 @@ install_libxslt() {
               --without-crypto \
               --without-python
   make -j"$jobs"
-  make install 2>/dev/null
+  make install
 }
 
 install_xmlstarlet() {
@@ -185,12 +185,7 @@ install_xmlstarlet() {
       RPATH_ABS="${install_dir}/lib"
       ;;
   esac
-  if clang --version 2>/dev/null | grep -q "Apple clang"; then
-    APPLE_CLANG_BUILD="$(clang --version | sed -n 's/.*clang-\([0-9][0-9]*\).*/\1/p' | head -n1 || echo 0)"
-    if [ "${APPLE_CLANG_BUILD:-0}" -ge 1500 ]; then
-      export CFLAGS="${CFLAGS-} -Wno-incompatible-function-pointer-types"
-    fi
-  fi
+  export CFLAGS="${CFLAGS-} -Wno-incompatible-function-pointer-types"
   export XML2_CONFIG="${install_dir}/bin/xml2-config"   # ADDED
   XML2_CFLAGS="$("$XML2_CONFIG" --cflags)"
   XML2_LIBS="$("$XML2_CONFIG" --libs)"
@@ -202,7 +197,7 @@ install_xmlstarlet() {
               --prefix="${install_dir}" \
               --mandir="${install_dir}/share/man"
   make -j"$jobs"
-  make install 2>/dev/null
+  make install
   ln -sf "${install_dir}/bin/xml" "${install_dir}/bin/xmlstarlet"
 }
 
