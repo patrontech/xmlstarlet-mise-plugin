@@ -202,7 +202,7 @@ install_xmlstarlet() {
               --prefix="${install_dir}" \
               --mandir="${install_dir}/share/man"
   make -j"$jobs"
-  make install
+  make install 2>/dev/null
   ln -sf "${install_dir}/bin/xml" "${install_dir}/bin/xmlstarlet"
 }
 
