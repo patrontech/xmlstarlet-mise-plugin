@@ -177,7 +177,7 @@ install_xmlstarlet() {
   local jobs="$3"
   case "$(uname -s)" in
     Darwin)
-      export CFLAGS="${CFLAGS-} -Wno-incompatible-function-pointer-types"
+      export CFLAGS="${CFLAGS-} -Wno-deprecated-declarations -Wno-incompatible-function-pointer-types"
       RPATH_REL='@loader_path/../lib'
       RPATH_ABS="${install_dir}/lib"
       ;;
