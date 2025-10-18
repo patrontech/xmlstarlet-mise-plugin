@@ -117,7 +117,7 @@ install_zlib() {
   cd "$download_dir/zlib"
   ./configure --prefix="$install_dir"
   make -j"$jobs"
-  make install
+  make install 2>/dev/null
 }
 
 install_libxml2() {
@@ -142,7 +142,7 @@ install_libxml2() {
               --without-python \
               --without-lzma
   make -j"$jobs"
-  make install
+  make install 2>/dev/null
 }
 
 install_libxslt() {
@@ -168,7 +168,7 @@ install_libxslt() {
               --without-crypto \
               --without-python
   make -j"$jobs"
-  make install
+  make install 2>/dev/null
 }
 
 install_xmlstarlet() {
