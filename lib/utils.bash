@@ -175,6 +175,8 @@ install_xmlstarlet() {
   local download_dir="$1"
   local install_dir="$2"
   local jobs="$3"
+  # export CFLAGS="${CFLAGS-} -Wno-incompatible-function-pointer-types"
+  export CFLAGS="${CFLAGS-} -Wno-deprecated-declarations"
   case "$(uname -s)" in
     Darwin)
       RPATH_REL='@loader_path/../lib'
@@ -185,7 +187,6 @@ install_xmlstarlet() {
       RPATH_ABS="${install_dir}/lib"
       ;;
   esac
-  export CFLAGS="${CFLAGS-} -Wno-incompatible-function-pointer-types"
   export XML2_CONFIG="${install_dir}/bin/xml2-config"   # ADDED
   XML2_CFLAGS="$("$XML2_CONFIG" --cflags)"
   XML2_LIBS="$("$XML2_CONFIG" --libs)"
