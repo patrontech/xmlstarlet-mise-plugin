@@ -57,7 +57,7 @@ download() {
   local filename="${name}.tar.${ext}"
   local url="${from}/${name}-${ver}.tar.${ext}"
   fetch $url "${to}/$filename"
-  pushd "$to" >/dev/null
+  cd "$to"
   rm -rf $name
   case $ext in
     gz)
@@ -68,7 +68,6 @@ download() {
   esac
   mv "${name}-${ver}" "$name"
   rm "$filename"
-  popd >/dev/null
 }
 
 download_zlib() {
@@ -115,11 +114,10 @@ install_zlib() {
   local download_dir="$1"
   local install_dir="$2"
   local jobs="$3"
-  pushd "$download_dir/zlib" >/dev/null
+  cd "$download_dir/zlib"
   ./configure --prefix="$install_dir"
   make -j"$jobs"
   make install
-  popd >/dev/null
 }
 
 install_libxml2() {
@@ -136,7 +134,7 @@ install_libxml2() {
       RPATH_ABS="${install_dir}/lib"
       ;;
   esac
-  pushd "$download_dir/libxml2" >/dev/null
+  cd "$download_dir/libxml2"
   CPPFLAGS="-I${install_dir}/include" \
   LDFLAGS="-L${install_dir}/lib -Wl,-rpath,${RPATH_ABS} -Wl,-rpath,${RPATH_REL}" \
   ./configure --prefix="${install_dir}" \
@@ -145,7 +143,6 @@ install_libxml2() {
               --without-lzma
   make -j"$jobs"
   make install
-  popd >/dev/null
 }
 
 install_libxslt() {
@@ -162,7 +159,7 @@ install_libxslt() {
       RPATH_ABS="${install_dir}/lib"
       ;;
   esac
-  pushd "$download_dir/libxslt" >/dev/null
+  cd "$download_dir/libxslt"
   export XML2_CONFIG="${install_dir}/bin/xml2-config"
   CPPFLAGS="-I${install_dir}/include" \
   LDFLAGS="-L${install_dir}/lib -Wl,-rpath,${RPATH_ABS} -Wl,-rpath,${RPATH_REL}" \
@@ -172,43 +169,6 @@ install_libxslt() {
               --without-python
   make -j"$jobs"
   make install
-  popd >/dev/null
-}
-
-build_xmlstarlet() {
-  local tgz="xmlstarlet-${XMLSTARLET_VERSION}.tar.gz"
-  fetch "https://downloads.sourceforge.net/project/xmlstar/xmlstarlet/${XMLSTARLET_VERSION}/${tgz}" "${tgz}"
-  rm -rf "xmlstarlet-${XMLSTARLET_VERSION}"
-  tar -xzf "${tgz}"
-  pushd "xmlstarlet-${XMLSTARLET_VERSION}" >/dev/null
-
-  # Apple Clang warning suppression (>= 1500), harmless elsewhere if not applied
-  if clang --version 2>/dev/null | grep -q "Apple clang"; then
-    APPLE_CLANG_BUILD="$(clang --version | sed -n 's/.*clang-\([0-9][0-9]*\).*/\1/p' | head -n1 || echo 0)"
-    if [ "${APPLE_CLANG_BUILD:-0}" -ge 1500 ]; then
-      export CFLAGS="${CFLAGS-} -Wno-incompatible-function-pointer-types"
-    fi
-  fi
-
-  # Make absolutely sure configure can find xml2-config:
-  export XML2_CONFIG="${PREFIX}/bin/xml2-config"   # ADDED
-
-  # Use libxml2's own flags for correctness (-I include/libxml2 etc)
-  XML2_CFLAGS="$("${PREFIX}/bin/xml2-config" --cflags)"
-  XML2_LIBS="$("${PREFIX}/bin/xml2-config" --libs)"
-
-  CPPFLAGS="${XML2_CFLAGS} -I${PREFIX}/include" \
-  LDFLAGS="-L${PREFIX}/lib -Wl,-rpath,${RPATH_ABS} -Wl,-rpath,${RPATH_REL}" \
-  LIBS="${XML2_LIBS} -lxslt -lexslt" \
-  ./configure --disable-dependency-tracking \
-              --prefix="${PREFIX}" \
-              --mandir="${PREFIX}/share/man"
-
-  make -j"${JOBS}"
-  make install
-
-  ln -sf "${PREFIX}/bin/xml" "${PREFIX}/bin/xmlstarlet"
-  popd >/dev/null
 }
 
 install_xmlstarlet() {
@@ -234,7 +194,7 @@ install_xmlstarlet() {
   export XML2_CONFIG="${install_dir}/bin/xml2-config"   # ADDED
   XML2_CFLAGS="$("$XML2_CONFIG" --cflags)"
   XML2_LIBS="$("$XML2_CONFIG" --libs)"
-  pushd "$download_dir/xmlstarlet" >/dev/null
+  cd "$download_dir/xmlstarlet"
   CPPFLAGS="${XML2_CFLAGS} -I${install_dir}/include" \
   LDFLAGS="-L${install_dir}/lib -Wl,-rpath,${RPATH_ABS} -Wl,-rpath,${RPATH_REL}" \
   LIBS="${XML2_LIBS} -lxslt -lexslt" \
@@ -244,7 +204,6 @@ install_xmlstarlet() {
   make -j"$jobs"
   make install
   ln -sf "${install_dir}/bin/xml" "${install_dir}/bin/xmlstarlet"
-  popd >/dev/null
 }
 
 install_release() {
