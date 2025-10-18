@@ -232,10 +232,8 @@ install_xmlstarlet() {
     fi
   fi
   export XML2_CONFIG="${install_dir}/bin/xml2-config"   # ADDED
-
   XML2_CFLAGS="$("$XML2_CONFIG" --cflags)"
   XML2_LIBS="$("$XML2_CONFIG" --libs)"
-
   pushd "$download_dir/xmlstarlet" >/dev/null
   CPPFLAGS="${XML2_CFLAGS} -I${install_dir}/include" \
   LDFLAGS="-L${install_dir}/lib -Wl,-rpath,${RPATH_ABS} -Wl,-rpath,${RPATH_REL}" \
